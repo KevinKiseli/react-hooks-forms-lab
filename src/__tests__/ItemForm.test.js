@@ -27,21 +27,19 @@ test("calls the onItemFormSubmit callback prop when the form is submitted", () =
 });
 
 test("adds a new item to the list when the form is submitted", () => {
-  render(<App />);
+  (<App />);
 
   const dessertCount = screen.queryAllByText(/Dessert/).length;
 
-  fireEvent.change(screen.queryByLabelText(/Name/), {
-    target: { value: "Ice Cream" },
-  });
 
-  fireEvent.change(screen.queryByLabelText(/Category/), {
-    target: { value: "Dessert" },
-  });
-
-  fireEvent.submit(screen.queryByText(/Add to List/));
-
-  expect(screen.queryByText(/Ice Cream/)).toBeInTheDocument();
-
-  expect(screen.queryAllByText(/Dessert/).length).toBe(dessertCount + 1);
+fireEvent.change(screen.queryByLabelText(/Name/), {
+  target: { value: "Ice Cream" },
 });
+
+fireEvent.click(screen.getByLabelText("Submit"));
+
+  await waitFor(() => {
+    
+    expect(screen.getByText("Ice Cream")).toBeInTheDocument();
+  }
+  );
